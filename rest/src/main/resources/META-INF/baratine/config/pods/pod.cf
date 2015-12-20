@@ -1,0 +1,5 @@
+pod rest {
+  archive "/usr/lib/pods/rest.bar";
+
+  web "/" "web";
+}

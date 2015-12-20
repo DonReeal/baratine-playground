@@ -1,0 +1,14 @@
+# eclipse stuff
+.settings
+.classpath
+
+target-eclipse
+target-ide
+
+# maven stuff
+target
+
+# java stuff
+*.class
+
+

@@ -1,0 +1,10 @@
+target
+# eclipse stuff
+.classpath 
+.project
+.bashrc
+.classpath
+.settings
+.workspace
+.metadata
+.recommenders
