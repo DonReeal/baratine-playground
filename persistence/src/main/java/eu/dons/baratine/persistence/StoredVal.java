@@ -4,13 +4,17 @@ import io.baratine.core.Result;
 import io.baratine.store.Store;
 
 import java.util.Objects;
+import java.util.logging.Logger;
 
 public class StoredVal<T> {
+    
+    private final Logger LOG = Logger.getLogger(StoredVal.class.getName());
 	
 	private final String _key;
 	private final Store<T> _store;
 	
 	public StoredVal(Store<T> store, String valueKey) {
+	    
 		Objects.requireNonNull(store, "store may not be null!");
 		Objects.requireNonNull(valueKey, "valueKey may not be null!");
 		
@@ -25,11 +29,16 @@ public class StoredVal<T> {
 	 * @param result
 	 */
 	public void load( T defaultValue, Result<T> result) {
+	    LOG.fine(String.format("loading value from store: %s @key: %s", _store, _key));
 		_store.get(_key, result.from((v, r) -> {
-			if(v == null)
+			if(v == null) {
+			    LOG.fine(String.format("No value previously saved in this store %s@key: %s", _store, _key ));
 				r.complete(defaultValue);
-			else
+			}
+			else {
+			    LOG.fine(String.format("Gotcha: %s", v));
 				r.complete(v);
+			}
 		}));
 	}
 
@@ -40,5 +49,5 @@ public class StoredVal<T> {
 	public void delete(Result<Boolean> result) {
 		_store.remove(_key, result.from(Void -> true));
 	}
-
+	
 }
