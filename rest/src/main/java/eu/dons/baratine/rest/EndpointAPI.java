@@ -1,13 +1,12 @@
-package eu.dons.baratine.rest.composite;
+package eu.dons.baratine.rest;
 
 import io.baratine.core.Result;
 import io.baratine.core.ResultStream;
 
 import java.util.List;
 
-public interface Endpoint {
-	
-	
+public interface EndpointAPI {
+    
 	/**
 	 * GET ALL DATA
 	 * @author donreeal

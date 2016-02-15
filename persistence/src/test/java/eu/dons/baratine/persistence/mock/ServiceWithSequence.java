@@ -1,6 +1,6 @@
 package eu.dons.baratine.persistence.mock;
 
-import eu.dons.baratine.persistence.BarURL;
+import eu.dons.baratine.persistence.BarId;
 import eu.dons.baratine.persistence.Module;
 import eu.dons.baratine.persistence.Sequence;
 import eu.dons.baratine.persistence.StoredVal;
@@ -11,11 +11,11 @@ import io.baratine.store.Store;
 
 public class ServiceWithSequence {
     
-    public ServiceWithSequence(BarURL url) {
+    public ServiceWithSequence(BarId url) {
         this.serviceURL = url;
     }    
     
-    private final BarURL serviceURL;
+    private final BarId serviceURL;
     private Sequence seq;
     
     public void incrementSequence(Result<Long> result) {
@@ -25,7 +25,7 @@ public class ServiceWithSequence {
     @OnInit
     public void onInit() {
         
-        String storageAdress = BarURL.toStorage(serviceURL).val();
+        String storageAdress = BarId.toStorage(serviceURL).fqURL();
         Store<Long> store = ServiceManager.current().lookup(storageAdress).as(Store.class, Long.class);
         StoredVal<Long> storage = new StoredVal<Long>(store, "current-count");
         

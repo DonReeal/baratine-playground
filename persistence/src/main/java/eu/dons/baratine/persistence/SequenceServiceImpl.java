@@ -42,7 +42,11 @@ class SequenceServiceImpl implements Sequence {
 	@OnLoad
 	public void onLoad(Result<Boolean> result) {
 		LOG.fine("@Onload - synchronizing count value from Store");
-		_countStore.load(0L, result.from(x -> true));
+		_countStore.load(0L, result.from(loadedValue -> {
+		    if(loadedValue != null) 
+		        this._count = loadedValue;
+		    return true;
+		}));
 	}
 	
 	@Modify

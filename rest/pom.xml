@@ -5,12 +5,12 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>eu.dons.baratine</groupId>
   <artifactId>rest</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>0.10.3</version>
   <packaging>jar</packaging>
 
   <properties>
     <encoding>UTF-8</encoding>
-    <baratine.version>0.10.2</baratine.version>
+    <baratine.version>0.10.3</baratine.version>
   </properties>
 
   <dependencies>
@@ -27,6 +27,14 @@
       <version>4.12</version>
       <scope>test</scope>
     </dependency>
+    
+	<dependency>
+		<groupId>org.projectlombok</groupId>
+		<artifactId>lombok</artifactId>
+		<version>1.16.6</version>
+		<scope>compile</scope>
+	</dependency>
+    
   </dependencies>
 
   <build>
@@ -38,6 +46,15 @@
           <source>1.8</source>
           <target>1.8</target>
         </configuration>
+        
+        <dependencies>
+        <dependency>
+		<groupId>org.projectlombok</groupId>
+		<artifactId>lombok</artifactId>
+		<version>1.16.6</version>
+		<scope>compile</scope>
+	</dependency>
+        </dependencies>
       </plugin>
 
       <!-- 

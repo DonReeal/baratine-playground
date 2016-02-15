@@ -10,7 +10,7 @@
 
   <properties>
     <encoding>UTF-8</encoding>
-    <baratine.version>${version}</baratine.version>
+    <baratine.version>${project.version}</baratine.version>
   </properties>
 
   <dependencies>

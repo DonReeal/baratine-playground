@@ -1,4 +1,4 @@
-package eu.dons.baratine.rest;
+package eu.dons.baratine.rest.mock.endpoint.inmem;
 
 public class Message {
 

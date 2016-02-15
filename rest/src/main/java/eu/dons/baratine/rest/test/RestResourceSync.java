@@ -1,6 +1,6 @@
 package eu.dons.baratine.rest.test;
 
-import eu.dons.baratine.rest.composite.Resource;
+import eu.dons.baratine.rest.ResourceAPI;
 
 /**
  * A unique resource with standard REST API Interface
@@ -9,9 +9,14 @@ import eu.dons.baratine.rest.composite.Resource;
  *
  * @param <RESOURCE_DATA> the public data of this resource
  */
-public interface RestResource<R> extends 
-		Resource.GET<R>,
-		Resource.PUT<R>,
-		Resource.DELETE<R> {
+public interface RestResourceSync<R> extends 
+		ResourceAPI.GET<R>,
+		ResourceAPI.PUT<R>,
+		ResourceAPI.DELETE<R> {
+    
+    public R get();
+    public String put(R data);
+    public boolean delete();
+    
 
 }

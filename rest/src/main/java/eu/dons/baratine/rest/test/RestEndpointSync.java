@@ -4,9 +4,7 @@ import io.baratine.core.ResultStream;
 
 import java.util.List;
 
-import com.caucho.v5.el.stream.Stream;
-
-import eu.dons.baratine.rest.composite.Endpoint;
+import eu.dons.baratine.rest.EndpointAPI;
 
 /**
  * An Endpoint serving DATA over standard REST-API
@@ -15,14 +13,14 @@ import eu.dons.baratine.rest.composite.Endpoint;
  * @param <DATA> the data that is being served by this endpoint
  */
 public interface RestEndpointSync<DATA> extends 
-		Endpoint.GET<DATA>,
-		Endpoint.POST<DATA>,
-		Endpoint.PUT<DATA>,
-		Endpoint.DELETE {
+		EndpointAPI.GET<DATA>,
+		EndpointAPI.POST<DATA>,
+		EndpointAPI.PUT<DATA>,
+		EndpointAPI.DELETE {
 	
 	public List<DATA> get();	
 	public String post(DATA data);
-	public Stream<DATA> put(Iterable<DATA> resource);
+	public ResultStream<DATA> put(Iterable<DATA> resource);
 	public void delete();
 	
 	

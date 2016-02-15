@@ -30,18 +30,18 @@ public class SequenceTest {
 
     @Inject
     ServiceManager _sm;
-    
+
     @Test
     public void testInitial() {
         
-        BarURL serviceURL = new BarURL("pod", "test", "test-sequence");
-        Store<Long> store = _sm.lookup(BarURL.toStorage(serviceURL).val()).as(Store.class, Long.class);
+        BarId serviceURL = new BarId("pod", "test", "test-sequence");
+        Store<Long> store = _sm.lookup(BarId.toStorage(serviceURL).fqURL()).as(Store.class, Long.class);
         StoredVal<Long> storage = new StoredVal<Long>(store, "value-count");        
         
         Sequence seqImpl = Module.createSequence(storage);
         
         Sequence seq = _sm.newService()
-                .address(serviceURL.val())
+                .address(serviceURL.fqURL())
                 .service(seqImpl)
                 .build().as(Sequence.class);
         
@@ -58,14 +58,14 @@ public class SequenceTest {
     @Test
     public void usableInService() {
         
-        BarURL serviceURL = new BarURL("pod", "test", "service-with-sequence");
-        assertThat(serviceURL.val(), is("pod://test/service-with-sequence"));
+        BarId serviceURL = new BarId("pod", "test", "service-with-sequence");
+        assertThat(serviceURL.fqURL(), is("pod://test/service-with-sequence"));
         
-        BarURL storageURL = BarURL.toStorage(serviceURL);
-        assertThat(storageURL.val(), is("store://test/service-with-sequence"));
+        BarId storageURL = BarId.toStorage(serviceURL);
+        assertThat(storageURL.fqURL(), is("store://test/service-with-sequence"));
         
         ServiceWithSequence o = new ServiceWithSequence(serviceURL);
-        svc = _sm.newService().service(o).address(serviceURL.val()).build().as(IServiceWithSequence.class);
+        svc = _sm.newService().service(o).address(serviceURL.fqURL()).build().as(IServiceWithSequence.class);
         
         ResultFuture<Long> firstRF = new ResultFuture<Long>();
         svc.incrementSequence(firstRF);

@@ -1,4 +1,4 @@
-package eu.dons.baratine.rest;
+package eu.dons.baratine.rest.mock.endpoint.inmem;
 
 import io.baratine.core.Result;
 import io.baratine.core.ResultStream;
@@ -8,8 +8,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import eu.dons.baratine.rest.RestEndpoint;
+
 @Service("/messages")
-public class MessagesInMem implements RestEndpoint<Message> {
+public class IM_MessagesEndpoint implements RestEndpoint<Message> {
 
 	public long _count = 0L;
 	public HashMap<String, Message> _messages = new HashMap<String, Message>();
@@ -37,8 +39,8 @@ public class MessagesInMem implements RestEndpoint<Message> {
 	}
 
 	@Override
-	public void put(Iterable<Message> resource, ResultStream<Message> result) {
-		resource.forEach(r -> {
+	public void put(Iterable<Message> messages, ResultStream<Message> result) {
+		messages.forEach(r -> {
 			_messages.put(r.getUrl(), r);
 			result.accept(r);
 		});

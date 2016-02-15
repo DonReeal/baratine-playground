@@ -16,11 +16,13 @@ import org.junit.runner.RunWith;
 import com.caucho.junit.ConfigurationBaratine;
 import com.caucho.junit.RunnerBaratine;
 
+import eu.dons.baratine.rest.mock.endpoint.inmem.IM_MessagesEndpoint;
+import eu.dons.baratine.rest.mock.endpoint.inmem.Message;
 import eu.dons.baratine.rest.test.RestEndpointSync;
 
 @RunWith(RunnerBaratine.class)
-@ConfigurationBaratine(services={ MessagesInMem.class })
-public class RestEndpointTest {
+@ConfigurationBaratine(services={ IM_MessagesEndpoint.class })
+public class RestEndpointInstancesAsDataTest {
 	
 	@Inject @Lookup("/messages")
 	RestEndpointSync<Message> _service;
@@ -43,8 +45,7 @@ public class RestEndpointTest {
 	@Test
 	public void testUpdate() throws InterruptedException{
 		
-		_service.delete();
-		
+		_service.delete();		
 		System.out.println("Cleared content of endpoint - get yields: " + _service.get());
 		
 		Message m1In = new Message();

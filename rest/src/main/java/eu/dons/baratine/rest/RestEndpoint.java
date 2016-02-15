@@ -1,6 +1,5 @@
 package eu.dons.baratine.rest;
 
-import eu.dons.baratine.rest.composite.Endpoint;
 
 /**
  * An Endpoint serving DATA over standard REST-API
@@ -9,8 +8,8 @@ import eu.dons.baratine.rest.composite.Endpoint;
  * @param <DATA> the data that is being served by this endpoint
  */
 public interface RestEndpoint<DATA> extends 
-		Endpoint.GET<DATA>,
-		Endpoint.POST<DATA>,
-		Endpoint.PUT<DATA>,
-		Endpoint.DELETE {	
+		EndpointAPI.GET<DATA>,
+		EndpointAPI.POST<DATA>,
+		EndpointAPI.PUT<DATA>,
+		EndpointAPI.DELETE {	
 }
