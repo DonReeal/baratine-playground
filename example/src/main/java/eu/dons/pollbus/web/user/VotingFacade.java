@@ -1,4 +1,4 @@
-package eu.dons.pollbus.vote;
+package eu.dons.pollbus.web.user;
 
 import eu.dons.pollbus.vote.entity.Vote;
 import io.baratine.core.Result;

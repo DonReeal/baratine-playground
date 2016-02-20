@@ -29,17 +29,14 @@ public class StandingsSupport implements Serializable {
         }
         this.standings = new long[indexPositions.size()];
     }
-
     
     public long upvote(Integer key) throws IllegalArgumentException {
         return ++standings[checkedGetIndex(key)];
     }
     
-
     public long downvote(Integer key) throws IllegalArgumentException {
         return --standings[checkedGetIndex(key)];
-    }
-    
+    }    
     
     public long getCount(Integer key) {
         return checkedGetValue(key);
