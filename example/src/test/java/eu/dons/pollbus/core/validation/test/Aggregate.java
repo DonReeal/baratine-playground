@@ -3,6 +3,7 @@ package eu.dons.pollbus.core.validation.test;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Size;
 
 import org.pure4j.annotations.immutable.ImmutableValue;
@@ -14,7 +15,8 @@ public class Aggregate extends AbstractImmutableValue<Aggregate> implements Seri
 
     private static final long serialVersionUID = 1L;
 
-    private final AggregateId pollId;
+    @Valid
+    private final AggregateId aggregateId;
 
     @Size(min = 3, max = 255)
     private final String name;
@@ -22,22 +24,23 @@ public class Aggregate extends AbstractImmutableValue<Aggregate> implements Seri
     @Size(max=1_000)
     private final String text;
 
-    private final PersistentList<Leaf> choices;
+    @Valid
+    private final PersistentList<Leaf> leafs;
 
     @Override
     protected void fields(Visitor v, Aggregate other) {
-        v.visit(this.pollId, other.pollId);
+        v.visit(this.aggregateId, other.aggregateId);
     }
 
     public Aggregate(AggregateId pollId, String name, String text, PersistentList<Leaf> choices) {
-        this.pollId = pollId;
+        this.aggregateId = pollId;
         this.name = name;
         this.text = text;
-        this.choices = choices;
+        this.leafs = choices;
     }
 
     public AggregateId getPollId() {
-        return pollId;
+        return aggregateId;
     }
 
     public String getName() {
@@ -49,6 +52,6 @@ public class Aggregate extends AbstractImmutableValue<Aggregate> implements Seri
     }
 
     public List<Leaf> getChoices() {
-        return choices;
+        return leafs;
     }
 }

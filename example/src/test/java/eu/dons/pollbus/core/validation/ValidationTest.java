@@ -1,9 +1,5 @@
 package eu.dons.pollbus.core.validation;
 
-import static org.junit.Assert.fail;
-import io.baratine.core.ResultFuture;
-import io.baratine.core.ServiceManager;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +12,6 @@ import javax.validation.ValidatorFactory;
 
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
-import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -27,10 +22,12 @@ import org.pure4j.collections.PersistentList;
 
 import com.caucho.junit.RunnerBaratine;
 
-import eu.dons.pollbus.core.ApplicationException;
+import eu.dons.pollbus.core.AppException;
 import eu.dons.pollbus.core.validation.test.Aggregate;
 import eu.dons.pollbus.core.validation.test.AggregateId;
 import eu.dons.pollbus.core.validation.test.Leaf;
+import io.baratine.core.ServiceExceptionExecution;
+import io.baratine.core.ServiceManager;
 
 @RunWith(RunnerBaratine.class)
 public class ValidationTest {
@@ -55,19 +52,21 @@ public class ValidationTest {
     
     
     @Test
-    public void test() throws ApplicationException {
-        // TESTDATA 
-        AggregateId id = new AggregateId("unit-test", 1L);
+    public void test() throws AppException {
+    	
+        AggregateId aggregateId = new AggregateId("");
         PersistentList<Leaf> leafs = new PersistentList<Leaf>(
-                new Leaf(1, "Leaf#1", 1),
-                new Leaf(2, "Leaf#2", 2));
+                new Leaf(1, "Leaf#1", -1),
+                new Leaf(2, "Leaf#2", 2));        
+        Aggregate a = new Aggregate(aggregateId, 
+        		"a", // too short name -> exception
+        		"this is a test aggregate", leafs);
         
-        Aggregate a = new Aggregate(id, "1", "this is a test aggregate",leafs);
-        expectedException.expect(new MyExceptionMatcher("between"));    
+        expectedException.expect(new MyExceptionMatcher("size must be between", "must be greater than"));    
         validatorService.validate(a);
     }
     
-    static final class MyExceptionMatcher extends BaseMatcher<IllegalArgumentException> {
+    static final class MyExceptionMatcher extends BaseMatcher<AppException> {
         public MyExceptionMatcher(String ... expectedSubStringsContained) {
             super();
             this.expectedSubStringsContained = Arrays.asList(expectedSubStringsContained);
@@ -76,20 +75,14 @@ public class ValidationTest {
         final List<String> expectedSubStringsContained;
         
         @Override
-        public boolean matches(Object item) {
-            
-            if(item instanceof Exception) {
-                return textMatchesExpectation((IllegalArgumentException) ((Exception) item).getCause().getCause());
-            }
-            
-            if(IllegalArgumentException.class.isInstance(item)) {
-                return textMatchesExpectation(IllegalArgumentException.class.cast(item));                
-            } else {
-                return false;
-            }        
+        public boolean matches(Object item) {   
+        	if(item instanceof ServiceExceptionExecution) {
+        		return textMatchesExpectation((AppException) ((Exception) item).getCause());
+        	}
+        	return false;             
         }
 
-        private boolean textMatchesExpectation(IllegalArgumentException iae) {
+        private boolean textMatchesExpectation(AppException iae) {
             String message = iae.getMessage();
             System.out.println(message);
             Map<String, Boolean> res = expectedSubStringsContained.stream()
@@ -105,8 +98,7 @@ public class ValidationTest {
 
         @Override
         public void describeTo(Description description) {
-            description.appendValueList("Expected to contain the following text parts: ", "\n;;;", "", expectedSubStringsContained);
-            
+            description.appendValueList("Expected to contain the following text parts:\n", ",", "!", expectedSubStringsContained);            
         }
         
     }

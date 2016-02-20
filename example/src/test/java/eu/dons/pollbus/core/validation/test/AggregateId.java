@@ -1,25 +1,22 @@
 package eu.dons.pollbus.core.validation.test;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.pure4j.immutable.AbstractImmutableValue;
 
 public class AggregateId extends AbstractImmutableValue<AggregateId> {
     
-    @NotNull
-    private final String userId;    
-    @NotNull
-    private final Long id;
-    
+    @NotNull @Size(min=4)
+    private final String key;    
+
     @Override
     protected void fields(Visitor v, AggregateId other) {
-        v.visit(userId, other.userId);
-        v.visit(id, other.userId);
+        v.visit(key, other.key);
     }
 
-    public AggregateId(String userId, Long id) {
+    public AggregateId(String key) {
         super();
-        this.userId = userId;
-        this.id = id;
+        this.key = key;
     }
 }

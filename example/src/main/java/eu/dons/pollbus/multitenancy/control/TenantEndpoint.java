@@ -13,7 +13,7 @@ import lombok.Builder;
 
 import org.joda.time.DateTime;
 
-import eu.dons.pollbus.core.ApplicationException;
+import eu.dons.pollbus.core.AppException;
 import eu.dons.pollbus.core.validation.IBeanValidator;
 import eu.dons.pollbus.multitenancy.boundary.ITenantEndpoint;
 import eu.dons.pollbus.multitenancy.boundary.ITenantResource;
@@ -35,7 +35,7 @@ public class TenantEndpoint implements ITenantEndpoint {
     }
     
     @Override
-    public void createTenant(String tenantId, String name, Result<Tenant> result) throws ApplicationException {
+    public void createTenant(String tenantId, String name, Result<Tenant> result) throws AppException {
         
         TenantId id = new TenantId(tenantId);
         Tenant tenant = new Tenant(id, name, DateTime.now());

@@ -1,5 +1,6 @@
 package eu.dons.pollbus.core.validation.test;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
 import org.pure4j.annotations.immutable.ImmutableValue;
@@ -13,6 +14,7 @@ public class Leaf extends AbstractImmutableValue<Leaf> {
     @Size(min=1, max=255)
     private final String name;
     
+    @Min(value=0)
     private final int sortKey;
     
     public int getId() {

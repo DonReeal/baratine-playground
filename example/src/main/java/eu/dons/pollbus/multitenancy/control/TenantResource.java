@@ -3,7 +3,7 @@ package eu.dons.pollbus.multitenancy.control;
 import io.baratine.core.Modify;
 import io.baratine.core.Result;
 
-import eu.dons.pollbus.core.ApplicationException;
+import eu.dons.pollbus.core.AppException;
 import eu.dons.pollbus.multitenancy.boundary.ITenantResource;
 import eu.dons.pollbus.multitenancy.entity.Tenant;
 
@@ -18,7 +18,7 @@ public class TenantResource extends ResourceBase implements ITenantResource {
 
     @Modify
     @Override
-    public void put(Tenant data, Result<String> result) throws ApplicationException {
+    public void put(Tenant data, Result<String> result) throws AppException {
         getValidator().validate(data, v -> {
             this.tenant = v;
             result.complete(data.getId().getId());
@@ -34,7 +34,7 @@ public class TenantResource extends ResourceBase implements ITenantResource {
 
     @Modify
     @Override
-    public void create(Tenant tenant, Result<Tenant> result) throws ApplicationException {
+    public void create(Tenant tenant, Result<Tenant> result) throws AppException {
         
         
         getValidator().validate(tenant, result);

@@ -11,7 +11,7 @@ import org.junit.runner.RunWith;
 import com.caucho.junit.ConfigurationBaratine;
 import com.caucho.junit.RunnerBaratine;
 
-import eu.dons.pollbus.core.ApplicationException;
+import eu.dons.pollbus.core.AppException;
 import eu.dons.pollbus.core.validation.IBeanValidator;
 import eu.dons.pollbus.multitenancy.control.TenantEndpoint;
 import eu.dons.pollbus.multitenancy.control.TenantResource;
@@ -24,7 +24,7 @@ public class TenancyEndpointTest {
     private ITenantEndpointSync tenants;
     
     @Test
-    public void test() throws ApplicationException {
+    public void test() throws AppException {
         tenants.createTenant("theTenantId","don");
     }
 
