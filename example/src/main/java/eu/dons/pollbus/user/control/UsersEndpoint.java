@@ -42,7 +42,7 @@ public class UsersEndpoint implements IUsers {
 		String key = path.substring(1);	
 	// 	new UserBean().setValidator(validator);
 		return UserBean.builder()
-				.id(key)
+				.userId(new UserId(key))
 				.db(new StoredVal<>(store, key))
 				.build();		
 		

@@ -19,6 +19,7 @@ import eu.dons.pollbus.core.ResourceBase;
 import eu.dons.pollbus.core.validation.IBeanValidator;
 import eu.dons.pollbus.user.boundary.IUser;
 import eu.dons.pollbus.user.entity.User;
+import eu.dons.pollbus.user.entity.UserId;
 
 
 @Builder
@@ -26,7 +27,7 @@ public class UserBean extends ResourceBase implements IUser {
 
 	private IBeanValidator validator;
 	
-	private String id;	
+	private UserId userId;	
 	private StoredVal<User> db;	
 	private User user;
 	
@@ -58,6 +59,14 @@ public class UserBean extends ResourceBase implements IUser {
 	@Override
 	@Modify
 	public void create(User user, Result<String> result) throws AppException {
+		
+		if(userId == null ) {
+			throw new IllegalStateException("resources id not initialized!");
+		} else {			
+			if(!userId.equals(user.identity())) {
+				throw new IllegalArgumentException("not the correct resource - identy didnt match!");			}
+		}	
+		
 		validator.validate(user, result.from(u -> {
 			this.user = u;
 			return user.identity().getKey();
@@ -69,5 +78,13 @@ public class UserBean extends ResourceBase implements IUser {
 	public void delete(Result<Boolean> result) {
 		this.user = User.EMPTY;
 	}
+
+
+	@Override
+	public String toString() {
+		return "UserBean [userId=" + userId + "]";
+	}
+	
+	
 
 }
