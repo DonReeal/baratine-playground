@@ -8,21 +8,23 @@ import org.pure4j.annotations.immutable.ImmutableValue;
 import eu.dons.pollbus.base.data.immutable.EntityBase;
 
 @ImmutableValue
-public class User extends EntityBase<User> {
-	
-	public static final User EMPTY = new User(new UserId(""), "");
+public class User extends EntityBase<User> {	
+	public transient static final User EMPTY = new User(new UserId(""), "", "");
 	
 	@Valid
 	private final UserId id;
 	
 	@Size(min=3)
 	private final String name;
+
+	@Size(min=8)
+	private final String pwHash;
 	
-	public User(UserId id, String name) {
+	public User(UserId id, String name, String passwordHash) {
 		this.id = id; 
 		this.name = name;
+		this.pwHash = passwordHash;
 	}
-
 	
 	public UserId identity() {
 		return id;
@@ -35,8 +37,7 @@ public class User extends EntityBase<User> {
 	@Override
 	protected void fields(Visitor v, User other) {
 		v.visit(this.id, other.id);
-	}
-	
+	}	
 
 	@Override
 	protected void contentFields(org.pure4j.immutable.AbstractImmutableValue.Visitor v, User other) {
@@ -47,6 +48,5 @@ public class User extends EntityBase<User> {
 	public User getEmpty() {
 		return EMPTY;
 	}
-    
 
 }

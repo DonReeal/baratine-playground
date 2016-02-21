@@ -5,8 +5,11 @@ import javax.validation.constraints.NotNull;
 import org.pure4j.annotations.immutable.ImmutableValue;
 import org.pure4j.immutable.AbstractImmutableValue;
 
+import eu.dons.pollbus.base.data.immutable.ValueObjectBase;
+
 @ImmutableValue
-public class UserId extends AbstractImmutableValue<UserId> {
+public class UserId extends ValueObjectBase<UserId> {
+	public transient static final UserId EMPTY = new UserId("");
 
 	@NotNull
     private final String key;
@@ -23,5 +26,10 @@ public class UserId extends AbstractImmutableValue<UserId> {
     public UserId(String uuid){
     	this.key = uuid;
     }
+
+	@Override
+	public UserId getEmpty() {
+		return EMPTY;
+	}
 
 }

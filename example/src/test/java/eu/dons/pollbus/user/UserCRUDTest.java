@@ -1,10 +1,14 @@
 package eu.dons.pollbus.user;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assume.assumeThat;
+import static org.junit.Assume.assumeTrue;
 
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -20,6 +24,7 @@ import eu.dons.pollbus.user.control.UsersEndpoint;
 import eu.dons.pollbus.user.entity.User;
 import eu.dons.pollbus.user.entity.UserId;
 import io.baratine.core.Lookup;
+import io.baratine.core.ServiceExceptionIllegalArgument;
 import io.baratine.core.ServiceManager;
 
 
@@ -29,7 +34,6 @@ public class UserCRUDTest {
 	
 	@Rule
 	public ExpectedException failure = ExpectedException.none();
-	
 	
 	@Lookup
 	private ServiceManager sm;
@@ -45,45 +49,40 @@ public class UserCRUDTest {
 		userResource123 = sm.lookup("/users/123").as(IUserSync.class);
 	}
 	
-
-	
-	
 	// === Endpoint
 	@Test
 	public void usersEndpointCreatesNewUsers() throws AppException {
 		String userKey = sync.createUser("don", "password");
-		assertTrue(userKey != null);
+		assertThat(userKey, notNullValue());
 	}
 	
 	
 	// === Resource
 	@Test
-	public void userResourceWithoutUserCreatedHasEmptyManagedUser(){
+	public void userResourceWithoutUserCreatedHasEmptyManagedUser() {
 		User user = userResource123.get();
 		assertTrue(user != null);
 		assertTrue(user.isEmpty());
 	}
 	
 	@Test
-	public void userResourceCreate() throws AppException {	
+	public void userResourceCreate() throws AppException {
 		
-		String id = userResource123.create(new User(new UserId("123"), "DonReeal"));
+		String userKey = userResource123.create(new User(new UserId("123"), "DonReeal", "password"));
 		User user = userResource123.get();
-		assertFalse(user.isEmpty());
-		assertTrue("123".equals(id));
+		assertThat(user.isEmpty(), is(false));
+		assertThat(userKey, is("123"));
 
 	}
 	
-	@Test()
-	public void creatingUserShouldFailIfTheCallerUsesWrongIdentityValue() throws AppException {
+	@Test
+	public void creatingUserShouldFailWhenTheCallerUsesWrongIdentityValue() throws AppException {		
 		
-		
-		failure.expectCause(org.hamcrest.CoreMatchers.instanceOf(AppException.class));
+		failure.expectCause(org.hamcrest.CoreMatchers.instanceOf(ServiceExceptionIllegalArgument.class));
 		failure.expectMessage("identity");
 		
-		userResource123.create(new User(new UserId("someWrongKey"), "indifferentName"));
-		
-		
+		UserId userId = new UserId("this-is-the-wrong-key!");		
+		userResource123.create(new User(userId, "indifferentName", "indifferentPassword"));		
 	}
 
 }

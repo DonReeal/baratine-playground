@@ -17,7 +17,6 @@ public interface IUser {
 	// createPoll();
 	// updatePoll();
 	// publishPoll();
-	//
 
 	// vote(PollId p, int choiceId);
 

@@ -34,8 +34,7 @@ public class UserBean extends ResourceBase implements IUser {
 	@OnInit
 	public void onInit() {
 		validator = ServiceManager.current().lookup("/base/beanvalidator").as(IBeanValidator.class);
-	}
-	
+	}	
 	
 	@OnLoad
 	public void onLoad(Result<Boolean> result) {
@@ -64,7 +63,7 @@ public class UserBean extends ResourceBase implements IUser {
 			throw new IllegalStateException("resources id not initialized!");
 		} else {			
 			if(!userId.equals(user.identity())) {
-				throw new IllegalArgumentException("not the correct resource - identy didnt match!");			}
+				throw new IllegalArgumentException("wrong data passed - user#identity did not match!");			}
 		}	
 		
 		validator.validate(user, result.from(u -> {
@@ -78,13 +77,9 @@ public class UserBean extends ResourceBase implements IUser {
 	public void delete(Result<Boolean> result) {
 		this.user = User.EMPTY;
 	}
-
-
+	
 	@Override
 	public String toString() {
 		return "UserBean [userId=" + userId + "]";
 	}
-	
-	
-
 }

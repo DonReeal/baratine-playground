@@ -21,31 +21,29 @@ public class UsersEndpoint implements IUsers {
 	private long userIdCounter = 0L;
 	
 	@Inject @Lookup("store:///users")
-	private Store<User> store;	
+	private Store<User> store;
+	
 	public void setStore(Store<User> store) {
 		this.store = store;
-	}
-	
+	}	
 
 	@Override
 	public void createUser(String login, String password, Result<String> result) throws AppException {
-		String allocId = Long.toString(++ userIdCounter);		
-		IUser newUser = ServiceRef.current().lookup("/" + allocId).as(IUser.class);
-		User data = new User(new UserId(allocId), login);
-		newUser.create(data, result);
-	}
-	
+		
+		String userKey = Long.toString(++ userIdCounter);		
+		IUser userInstanceSvc = ServiceRef.current().lookup("/" + userKey).as(IUser.class);
+		User data = new User(new UserId(userKey), login, password);
+		userInstanceSvc.create(data, result);
+	}	
 
 	@OnLookup
 	public IUser onLookup(String path) {
 		
 		String key = path.substring(1);	
-	// 	new UserBean().setValidator(validator);
 		return UserBean.builder()
 				.userId(new UserId(key))
-				.db(new StoredVal<>(store, key))
+				.db(new StoredVal<User>(store, key))
 				.build();		
-		
-	}	
-
+	}
+	
 }
