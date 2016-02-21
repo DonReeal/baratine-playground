@@ -13,8 +13,8 @@ import lombok.Builder;
 
 import org.joda.time.DateTime;
 
-import eu.dons.pollbus.core.AppException;
-import eu.dons.pollbus.core.validation.IBeanValidator;
+import eu.dons.pollbus.base.AppException;
+import eu.dons.pollbus.base.validation.IBeanValidator;
 import eu.dons.pollbus.multitenancy.boundary.ITenantEndpoint;
 import eu.dons.pollbus.multitenancy.boundary.ITenantResource;
 import eu.dons.pollbus.multitenancy.entity.Tenant;

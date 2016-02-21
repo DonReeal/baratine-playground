@@ -22,7 +22,8 @@ import org.pure4j.collections.PersistentList;
 
 import com.caucho.junit.RunnerBaratine;
 
-import eu.dons.pollbus.core.AppException;
+import eu.dons.pollbus.base.AppException;
+import eu.dons.pollbus.base.validation.BeanValidatorService;
 import eu.dons.pollbus.core.validation.test.Aggregate;
 import eu.dons.pollbus.core.validation.test.AggregateId;
 import eu.dons.pollbus.core.validation.test.Leaf;
@@ -45,7 +46,7 @@ public class ValidationTest {
     
     @Before
     public void initImpl() {
-        BeanValidator v = new BeanValidator();
+        BeanValidatorService v = new BeanValidatorService();
         v.setValidatorImplementation(validatorImplementation);
         validatorService = _sm.newService().service(v).build().as(BeanValidatorSync.class);        
     }

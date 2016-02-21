@@ -9,6 +9,11 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeThat;
 import static org.junit.Assume.assumeTrue;
 
+import javax.net.ssl.ExtendedSSLSession;
+
+import org.hamcrest.BaseMatcher;
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -18,8 +23,10 @@ import org.junit.runner.RunWith;
 import com.caucho.junit.ConfigurationBaratine;
 import com.caucho.junit.RunnerBaratine;
 
-import eu.dons.pollbus.core.AppException;
-import eu.dons.pollbus.core.validation.BeanValidator;
+import eu.dons.pollbus.base.AppException;
+import eu.dons.pollbus.base.data.Entity;
+import eu.dons.pollbus.base.data.immutable.EntityBase;
+import eu.dons.pollbus.base.validation.BeanValidatorService;
 import eu.dons.pollbus.user.control.UsersEndpoint;
 import eu.dons.pollbus.user.entity.User;
 import eu.dons.pollbus.user.entity.UserId;
@@ -29,7 +36,7 @@ import io.baratine.core.ServiceManager;
 
 
 @RunWith(RunnerBaratine.class)
-@ConfigurationBaratine(services={BeanValidator.class, UsersEndpoint.class})
+@ConfigurationBaratine(services={BeanValidatorService.class, UsersEndpoint.class})
 public class UserCRUDTest {
 	
 	@Rule
@@ -68,13 +75,16 @@ public class UserCRUDTest {
 	@Test
 	public void userResourceCreate() throws AppException {
 		
-		String userKey = userResource123.create(new User(new UserId("123"), "DonReeal", "password"));
-		User user = userResource123.get();
-		assertThat(user.isEmpty(), is(false));
+		User in =  new User(new UserId("123"), "DonReeal", "password");		
+		String userKey = userResource123.create(in);
 		assertThat(userKey, is("123"));
-
+		
+		User persistedUser = userResource123.get();
+		assertThat(persistedUser.isEmpty(), is(false));		
+		assertThat(persistedUser, is(in));
+		assertTrue(persistedUser.contentEquals(in));
 	}
-	
+
 	@Test
 	public void creatingUserShouldFailWhenTheCallerUsesWrongIdentityValue() throws AppException {		
 		

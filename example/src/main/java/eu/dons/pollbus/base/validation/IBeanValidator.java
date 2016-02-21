@@ -1,6 +1,6 @@
-package eu.dons.pollbus.core.validation;
+package eu.dons.pollbus.base.validation;
 
-import eu.dons.pollbus.core.AppException;
+import eu.dons.pollbus.base.AppException;
 import io.baratine.core.Result;
 
 public interface IBeanValidator {

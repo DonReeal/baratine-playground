@@ -5,7 +5,7 @@ import org.pure4j.immutable.AbstractImmutableValue;
 
 import eu.dons.pollbus.base.data.Entity;
 
-public  abstract class EntityBase<T extends Entity> extends DataBase<T> implements Entity {
+public  abstract class EntityBase<E extends Entity> extends DataBase<E> implements Entity {
 
 	private static class EqualsVisitor implements Visitor {		
 		boolean result = true;
@@ -17,7 +17,7 @@ public  abstract class EntityBase<T extends Entity> extends DataBase<T> implemen
 		}
 	}
 	
-	protected abstract void contentFields(Visitor v, T other);
+	protected abstract void contentFields(Visitor v, E other);
 
 	
 	@Override @SuppressWarnings("unchecked")
@@ -28,7 +28,7 @@ public  abstract class EntityBase<T extends Entity> extends DataBase<T> implemen
 			return true;
 		} else if (this.getClass().isInstance(other)) {	
 			final EqualsVisitor v = new EqualsVisitor();
-			contentFields(v, (T) other);
+			contentFields(v, (E) other);
 			return v.result;
 			
 		} else {

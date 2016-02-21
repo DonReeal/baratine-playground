@@ -14,9 +14,10 @@ import io.baratine.core.ServiceManager;
 import lombok.Builder;
 
 import eu.dons.baratine.persistence.StoredVal;
-import eu.dons.pollbus.core.AppException;
-import eu.dons.pollbus.core.ResourceBase;
-import eu.dons.pollbus.core.validation.IBeanValidator;
+import eu.dons.pollbus.base.AppException;
+import eu.dons.pollbus.base.service.ResourceBase;
+import eu.dons.pollbus.base.validation.IBeanValidator;
+import eu.dons.pollbus.base.validation.ValidationSupport;
 import eu.dons.pollbus.user.boundary.IUser;
 import eu.dons.pollbus.user.entity.User;
 import eu.dons.pollbus.user.entity.UserId;
@@ -25,16 +26,11 @@ import eu.dons.pollbus.user.entity.UserId;
 @Builder
 public class UserBean extends ResourceBase implements IUser {
 
-	private IBeanValidator validator;
+	// private IBeanValidator validator  OR: ValidationSupport
 	
 	private UserId userId;	
 	private StoredVal<User> db;	
 	private User user;
-	
-	@OnInit
-	public void onInit() {
-		validator = ServiceManager.current().lookup("/base/beanvalidator").as(IBeanValidator.class);
-	}	
 	
 	@OnLoad
 	public void onLoad(Result<Boolean> result) {
@@ -66,7 +62,7 @@ public class UserBean extends ResourceBase implements IUser {
 				throw new IllegalArgumentException("wrong data passed - user#identity did not match!");			}
 		}	
 		
-		validator.validate(user, result.from(u -> {
+		getValidator().validate(user, result.from(u -> {
 			this.user = u;
 			return user.identity().getKey();
 		}));		

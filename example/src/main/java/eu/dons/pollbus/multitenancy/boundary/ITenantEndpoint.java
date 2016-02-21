@@ -1,7 +1,7 @@
 package eu.dons.pollbus.multitenancy.boundary;
 
 import io.baratine.core.Result;
-import eu.dons.pollbus.core.AppException;
+import eu.dons.pollbus.base.AppException;
 import eu.dons.pollbus.multitenancy.entity.Tenant;
 
 public interface ITenantEndpoint {

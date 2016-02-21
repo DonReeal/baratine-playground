@@ -1,6 +1,6 @@
 package eu.dons.pollbus.user.boundary;
 
-import eu.dons.pollbus.core.AppException;
+import eu.dons.pollbus.base.AppException;
 import eu.dons.pollbus.user.entity.User;
 import io.baratine.core.Result;
 

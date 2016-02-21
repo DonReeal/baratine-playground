@@ -1,6 +1,6 @@
 package eu.dons.pollbus.multitenancy;
 
-import eu.dons.pollbus.core.AppException;
+import eu.dons.pollbus.base.AppException;
 import eu.dons.pollbus.multitenancy.boundary.ITenantEndpoint;
 import eu.dons.pollbus.multitenancy.entity.Tenant;
 

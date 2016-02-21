@@ -1,6 +1,6 @@
 package eu.dons.pollbus.multitenancy.control;
 
-import eu.dons.pollbus.core.validation.IBeanValidator;
+import eu.dons.pollbus.base.validation.IBeanValidator;
 
 public class ResourceBase {
     

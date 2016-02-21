@@ -1,4 +1,4 @@
-package eu.dons.pollbus.core.validation;
+package eu.dons.pollbus.base.validation;
 
 import java.util.List;
 import java.util.Map;
@@ -10,13 +10,13 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
-import eu.dons.pollbus.core.AppException;
+import eu.dons.pollbus.base.AppException;
 import io.baratine.core.OnLoad;
 import io.baratine.core.Result;
 import io.baratine.core.Service;
 
 @Service("/base/beanvalidator")
-public class BeanValidator implements IBeanValidator {
+public class BeanValidatorService implements IBeanValidator {
     
     private Validator validator;    
     
@@ -50,7 +50,7 @@ public class BeanValidator implements IBeanValidator {
 			errorMessageBuilder.append(String.format("\n\\-invalid data in: %s", rootBeanClass.getName()));
 			
 			violationList.stream() // append list of violations for current 
-				.map(BeanValidator::toFormattedExceptionString)
+				.map(BeanValidatorService::toFormattedExceptionString)
 				.forEach(errorMessageBuilder::append);	
 			
 		});

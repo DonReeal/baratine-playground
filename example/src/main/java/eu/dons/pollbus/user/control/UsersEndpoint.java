@@ -3,7 +3,7 @@ package eu.dons.pollbus.user.control;
 import javax.inject.Inject;
 
 import eu.dons.baratine.persistence.StoredVal;
-import eu.dons.pollbus.core.AppException;
+import eu.dons.pollbus.base.AppException;
 import eu.dons.pollbus.user.boundary.IUser;
 import eu.dons.pollbus.user.boundary.IUsers;
 import eu.dons.pollbus.user.entity.User;
