@@ -2,34 +2,24 @@ package eu.dons.pollbus.user.control;
 
 import java.util.Objects;
 
-import javax.inject.Inject;
-
-import io.baratine.core.Lookup;
-import io.baratine.core.Modify;
-import io.baratine.core.OnInit;
-import io.baratine.core.OnLoad;
-import io.baratine.core.OnSave;
-import io.baratine.core.Result;
-import io.baratine.core.ServiceManager;
-import lombok.Builder;
-
 import eu.dons.baratine.persistence.StoredVal;
 import eu.dons.pollbus.base.AppException;
 import eu.dons.pollbus.base.service.ResourceBase;
-import eu.dons.pollbus.base.validation.IBeanValidator;
-import eu.dons.pollbus.base.validation.ValidationSupport;
 import eu.dons.pollbus.user.boundary.IUser;
 import eu.dons.pollbus.user.entity.User;
 import eu.dons.pollbus.user.entity.UserId;
+import io.baratine.core.Modify;
+import io.baratine.core.OnLoad;
+import io.baratine.core.OnSave;
+import io.baratine.core.Result;
+import lombok.Builder;
 
 
 @Builder
-public class UserBean extends ResourceBase implements IUser {
-
-	// private IBeanValidator validator  OR: ValidationSupport
+public class UserBean extends ResourceBase<UserId, User> implements IUser {
 	
 	private UserId userId;	
-	private StoredVal<User> db;	
+	private StoredVal<User> db;
 	private User user;
 	
 	@OnLoad
@@ -55,19 +45,26 @@ public class UserBean extends ResourceBase implements IUser {
 	@Modify
 	public void create(User user, Result<String> result) throws AppException {
 		
-		if(userId == null ) {
-			throw new IllegalStateException("resources id not initialized!");
-		} else {			
-			if(!userId.equals(user.identity())) {
-				throw new IllegalArgumentException("wrong data passed - user#identity did not match!");			}
-		}	
-		
+		validateStatePreCreate(user);		
 		getValidator().validate(user, result.from(u -> {
 			this.user = u;
 			return user.identity().getKey();
 		}));		
 	}
 
+	
+	private void validateStatePreCreate(User user) {		
+		if(this.user == null )
+			throw new IllegalStateException("resources id not initialized!");		
+		
+		if(!this.user.isEmpty())
+			throw new IllegalStateException("user already exists!");		
+		
+		if(!userId.equals(user.identity()))
+				throw new IllegalArgumentException("wrong data passed - user#identity did not match!");
+	}
+	
+	
 	@Override
 	@Modify
 	public void delete(Result<Boolean> result) {

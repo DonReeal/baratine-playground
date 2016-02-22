@@ -2,7 +2,7 @@ package eu.dons.pollbus.base;
 
 import eu.dons.pollbus.base.data.immutable.EntityBase;
 
-final class AnEntity extends EntityBase<AnEntity> {
+final class AnEntity extends EntityBase<String, AnEntity> {
 	
 	private final String id;
 	private final String valueOne;
@@ -38,6 +38,11 @@ final class AnEntity extends EntityBase<AnEntity> {
 	protected void contentFields(Visitor v, AnEntity other) {
 		v.visit(this.valueOne, other.valueOne);
 		v.visit(this.valueTwo, other.valueTwo);			
+	}
+
+	@Override
+	public String identity() {
+		return id;
 	}
 
 	

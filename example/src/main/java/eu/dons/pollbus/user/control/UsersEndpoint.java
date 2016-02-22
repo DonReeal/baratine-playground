@@ -8,13 +8,16 @@ import eu.dons.pollbus.user.boundary.IUser;
 import eu.dons.pollbus.user.boundary.IUsers;
 import eu.dons.pollbus.user.entity.User;
 import eu.dons.pollbus.user.entity.UserId;
+import io.baratine.core.Journal;
 import io.baratine.core.Lookup;
+import io.baratine.core.Modify;
 import io.baratine.core.OnLookup;
 import io.baratine.core.Result;
 import io.baratine.core.Service;
 import io.baratine.core.ServiceRef;
 import io.baratine.store.Store;
 
+@Journal
 @Service("/users")
 public class UsersEndpoint implements IUsers {
 	
@@ -27,6 +30,7 @@ public class UsersEndpoint implements IUsers {
 		this.store = store;
 	}	
 
+	@Modify
 	@Override
 	public void createUser(String login, String password, Result<String> result) throws AppException {
 		
@@ -43,6 +47,7 @@ public class UsersEndpoint implements IUsers {
 		return UserBean.builder()
 				.userId(new UserId(key))
 				.db(new StoredVal<User>(store, key))
+				.user(User.EMPTY)
 				.build();		
 	}
 	

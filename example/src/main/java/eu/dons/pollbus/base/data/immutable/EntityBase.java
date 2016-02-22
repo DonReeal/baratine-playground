@@ -5,7 +5,7 @@ import org.pure4j.immutable.AbstractImmutableValue;
 
 import eu.dons.pollbus.base.data.Entity;
 
-public  abstract class EntityBase<E extends Entity> extends DataBase<E> implements Entity {
+public  abstract class EntityBase<ID, E extends Entity<ID>> extends DataBase<E> implements Entity<ID> {
 
 	private static class EqualsVisitor implements Visitor {		
 		boolean result = true;

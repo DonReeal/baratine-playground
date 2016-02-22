@@ -1,6 +1,8 @@
 package eu.dons.pollbus.base.service;
 
+import eu.dons.pollbus.base.data.Entity;
 import eu.dons.pollbus.base.validation.IBeanValidator;
+import eu.dons.pollbus.user.entity.User;
 import io.baratine.core.OnInit;
 import io.baratine.core.ServiceManager;
 
@@ -13,8 +15,9 @@ import io.baratine.core.ServiceManager;
  * @author Bastian
  *
  */
-public class ResourceBase {
+public class ResourceBase<ID, DATA extends Entity<ID>> {
 	
+
 	private IBeanValidator validator;
 	
 	protected IBeanValidator getValidator() {
