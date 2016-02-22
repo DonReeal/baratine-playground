@@ -1,16 +1,11 @@
 package eu.dons.pollbus.user.control;
 
-import java.util.Objects;
-
-import eu.dons.baratine.persistence.StoredVal;
 import eu.dons.pollbus.base.AppException;
 import eu.dons.pollbus.base.service.ResourceBase;
 import eu.dons.pollbus.user.boundary.IUser;
 import eu.dons.pollbus.user.entity.User;
 import eu.dons.pollbus.user.entity.UserId;
 import io.baratine.core.Modify;
-import io.baratine.core.OnLoad;
-import io.baratine.core.OnSave;
 import io.baratine.core.Result;
 import lombok.Builder;
 
@@ -19,22 +14,22 @@ import lombok.Builder;
 public class UserBean extends ResourceBase<UserId, User> implements IUser {
 	
 	private UserId userId;	
-	private StoredVal<User> db;
+	// private StoredVal<User> db;
 	private User user;
-	
-	@OnLoad
-	public void onLoad(Result<Boolean> result) {
-		Objects.requireNonNull(db);
-		db.load(User.EMPTY, result.from( u -> {
-			this.user = u;
-			return true;
-		}));
-	}	
-	
-	@OnSave
-	public void save(Result<Boolean> result){
-		db.save(this.user, result);
-	}
+//	
+//	@OnLoad
+//	public void onLoad(Result<Boolean> result) {
+//		Objects.requireNonNull(db);
+//		db.load(User.EMPTY, result.from( u -> {
+//			this.user = u;
+//			return true;
+//		}));
+//	}	
+//	
+//	@OnSave
+//	public void save(Result<Boolean> result){
+//		db.save(this.user, result);
+//	}
 
 	@Override
 	public void get(Result<User> result) {
